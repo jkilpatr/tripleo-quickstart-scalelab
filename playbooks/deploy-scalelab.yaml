@@ -25,6 +25,23 @@
     - scalelab-network
     - scalelab-inventory
 
-#- import_playbook: scalelab-pci-passthrough.yaml
+- name: Setup Overcloud Metrics Controller and Ceph
+  hosts: controller:cephstorage
+  vars:
+    - config_type: "{{group_names[0]}}"
+  roles:
+    - browbeat/common
+    - browbeat/osp_version
+    - browbeat/epel
+    - browbeat/collectd-openstack
+    - browbeat/rsyslog-install
+    - browbeat/rsyslog-templates
 
-- include: overcloud-metrics.yml
+- name: Setup Overcloud Metrics Compute
+  hosts: compute
+  roles:
+    - browbeat/common
+    - browbeat/osp_version
+    - browbeat/epel
+    - browbeat/rsyslog-install
+    - browbeat/rsyslog-templates
